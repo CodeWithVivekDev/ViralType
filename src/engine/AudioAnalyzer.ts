@@ -25,3 +25,27 @@ export async function extractPeaks(audioFile: File, samples = 100): Promise<numb
   
   return peaks;
 }
+
+export async function detectBeats(audioFile: File): Promise<number[]> {
+  const buffer = await audioFile.arrayBuffer();
+  const ctx = new window.AudioContext();
+  const audioBuffer = await ctx.decodeAudioData(buffer);
+  
+  const channelData = audioBuffer.getChannelData(0);
+  const beats: number[] = [];
+  const sampleRate = audioBuffer.sampleRate;
+  
+  // Simple transient/peak detection for beats
+  const threshold = 0.8; 
+  const minBeatInterval = 0.3 * sampleRate; // ~300ms minimal interval
+  
+  let lastBeatAt = 0;
+  for (let i = 0; i < channelData.length; i++) {
+    if (Math.abs(channelData[i]) > threshold && i - lastBeatAt > minBeatInterval) {
+      beats.push(i / sampleRate);
+      lastBeatAt = i;
+    }
+  }
+  
+  return beats;
+}

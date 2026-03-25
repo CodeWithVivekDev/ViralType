@@ -1,11 +1,12 @@
 import React from 'react';
 import { Upload, Zap, X } from 'lucide-react';
 import { useEditorStore } from '../store/useEditorStore';
+import { detectBeats } from '../engine/AudioAnalyzer';
 import { generateMockTranscript } from '../engine/TranscriptionEngine';
 import { exportVideo } from '../engine/ExportEngine';
 
 export default function TopBar() {
-  const { setAudioFile, audioFile, audioUrl, setTranscript, setDuration, isLoading } = useEditorStore();
+  const { setAudioFile, audioFile, audioUrl, setTranscript, setDuration, setBeats, isLoading } = useEditorStore();
 
   const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -19,8 +20,15 @@ export default function TopBar() {
       const audio = new Audio(url);
       audio.onloadedmetadata = async () => {
         setDuration(audio.duration);
-        const words = await generateMockTranscript(audio.duration);
-        setTranscript(words);
+        
+        // Run generation tracking in parallel
+        Promise.all([
+          generateMockTranscript(audio.duration),
+          detectBeats(file)
+        ]).then(([words, bts]) => {
+          setTranscript(words);
+          setBeats(bts);
+        });
       };
 
       // Reset file input value to allow uploading the same file again

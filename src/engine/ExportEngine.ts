@@ -22,16 +22,19 @@ export async function exportVideo(isGreenscreen: boolean = false) {
     wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
   });
 
+  const { exportSettings } = store;
+  const { resolution, fps, format } = exportSettings;
+  const [width, height] = resolution.split('x').map(Number);
+
   ffmpeg.writeFile('audio.mp3', await fetchFile(store.audioFile));
 
   // Render loop locally for frames
-  const fps = 30;
   const totalFrames = Math.floor(store.duration * fps);
   
   const el = document.createElement('canvas');
-  el.width = 1080;
-  el.height = 1920;
-  const staticCanvas = new Canvas(el, { width: 1080, height: 1920 });
+  el.width = width;
+  el.height = height;
+  const staticCanvas = new Canvas(el, { width, height });
 
   for (let i = 0; i < totalFrames; i++) {
     const t = i / fps;
@@ -63,26 +66,30 @@ export async function exportVideo(isGreenscreen: boolean = false) {
   }
 
   // Muxing
+  const vcodec = format === 'webm' ? 'libvpx-vp9' : 'libx264';
+  const acodec = format === 'webm' ? 'libvorbis' : 'aac';
+
   await ffmpeg.exec([
-    '-framerate', '30',
+    '-framerate', fps.toString(),
     '-i', 'frame%05d.png',
     '-i', 'audio.mp3',
-    '-c:v', 'libx264',
-    '-c:a', 'aac',
+    '-c:v', vcodec,
+    '-c:a', acodec,
     '-b:a', '192k',
     '-pix_fmt', 'yuv420p',
+    '-s', resolution,
     '-shortest',
-    'output.mp4'
+    `output.${format}`
   ]);
 
-  const outputData = await ffmpeg.readFile('output.mp4');
+  const outputData = await ffmpeg.readFile(`output.${format}`);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const outBlob = new Blob([new Uint8Array(outputData as any)], { type: 'video/mp4' });
+  const outBlob = new Blob([new Uint8Array(outputData as any)], { type: `video/${format}` });
   const outUrl = URL.createObjectURL(outBlob);
 
   const a = document.createElement('a');
   a.href = outUrl;
-  a.download = `viraltype-${isGreenscreen ? 'greenscreen' : 'render'}.mp4`;
+  a.download = `viraltype-${isGreenscreen ? 'greenscreen' : 'render'}.${format}`;
   a.click();
 
   store.setIsLoading(false);

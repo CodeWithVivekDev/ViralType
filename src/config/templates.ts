@@ -6,11 +6,19 @@ export interface Template {
   baseColor: string;
   highlightColor: string;
   backgroundColor: string;
+  strokeColor?: string;
+  strokeWidth?: number;
   position: 'center' | 'bottom' | 'top';
   animationType: 'zoom' | 'punch' | 'bounce' | 'fade' | 'pop';
 }
 
 export const TEMPLATES: Record<string, Template> = {
+  viral: {
+    id: 'viral', name: 'Viral Bold', fontFamily: 'Syne', fontFamilyBody: 'DM Sans',
+    baseColor: '#FFFFFF', highlightColor: '#FFD93D', backgroundColor: '#0B0B0F',
+    strokeColor: '#000000', strokeWidth: 8,
+    position: 'center', animationType: 'pop'
+  },
   motivation: {
     id: 'motivation', name: 'Motivation', fontFamily: 'Syne', fontFamilyBody: 'DM Sans',
     baseColor: '#FFFFFF', highlightColor: '#7B5EFF', backgroundColor: '#000000',

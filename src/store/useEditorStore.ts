@@ -6,6 +6,12 @@ export interface WordMetadata {
   end: number;
 }
 
+export interface ExportSettings {
+  resolution: '1080x1920' | '720x1280';
+  fps: 24 | 30;
+  format: 'mp4' | 'webm';
+}
+
 export interface AppState {
   audioFile: File | null;
   audioUrl: string | null;
@@ -17,6 +23,11 @@ export interface AppState {
   currentTime: number;
   duration: number;
   
+  // New Viral features
+  isViralMode: boolean;
+  beats: number[];
+  exportSettings: ExportSettings;
+  
   // Actions
   setAudioFile: (file: File | null, url: string | null) => void;
   setTemplateId: (id: string) => void;
@@ -26,18 +37,25 @@ export interface AppState {
   setIsPlaying: (val: boolean) => void;
   setCurrentTime: (val: number) => void;
   setDuration: (val: number) => void;
+  setIsViralMode: (val: boolean) => void;
+  setBeats: (beats: number[]) => void;
+  setExportSettings: (settings: Partial<ExportSettings>) => void;
 }
 
 export const useEditorStore = create<AppState>((set) => ({
   audioFile: null,
   audioUrl: null,
   transcript: [],
-  templateId: 'motivation',
+  templateId: 'viral',
   isLoading: false,
   exportingPercentage: 0,
   isPlaying: false,
   currentTime: 0,
   duration: 0,
+  
+  isViralMode: true,
+  beats: [],
+  exportSettings: { resolution: '1080x1920', fps: 30, format: 'mp4' },
   
   setAudioFile: (file, url) => set({ audioFile: file, audioUrl: url }),
   setTemplateId: (id) => set({ templateId: id }),
@@ -46,5 +64,8 @@ export const useEditorStore = create<AppState>((set) => ({
   setExportingPercentage: (val) => set({ exportingPercentage: val }),
   setIsPlaying: (val) => set({ isPlaying: val }),
   setCurrentTime: (val) => set({ currentTime: val }),
-  setDuration: (val) => set({ duration: val })
+  setDuration: (val) => set({ duration: val }),
+  setIsViralMode: (val) => set({ isViralMode: val }),
+  setBeats: (val) => set({ beats: val }),
+  setExportSettings: (settings) => set((state) => ({ exportSettings: { ...state.exportSettings, ...settings } }))
 }));
