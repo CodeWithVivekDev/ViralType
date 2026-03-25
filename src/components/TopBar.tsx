@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Upload, Zap, X } from 'lucide-react';
+import { Upload, Zap, X } from 'lucide-react';
 import { useEditorStore } from '../store/useEditorStore';
 import { generateMockTranscript } from '../engine/TranscriptionEngine';
 import { exportVideo } from '../engine/ExportEngine';
@@ -60,16 +60,16 @@ export default function TopBar() {
           <label className="cursor-pointer bg-zinc-800 hover:bg-zinc-700 transition px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
             <Upload className="w-4 h-4" />
             <span className="truncate max-w-[150px]">{audioFile ? audioFile.name : 'Import Audio'}</span>
-            <input type="file" accept="audio/mp3, audio/wav" className="hidden" onChange={handleAudioUpload} />
+            <input type="file" accept="audio/mpeg, audio/wav, audio/mp3, .mp3, .wav" className="hidden" onChange={handleAudioUpload} />
           </label>
         </div>
         
         <button 
           onClick={() => exportVideo(true)}
           disabled={!audioFile || isLoading}
-          className="bg-zinc-800 hover:bg-zinc-700 transition px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
+          className="bg-zinc-800 hover:bg-emerald-600/90 hover:text-white transition px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 disabled:opacity-50"
         >
-          Greenscreen
+          Greenscreen Reel
         </button>
 
         <button 
@@ -77,8 +77,8 @@ export default function TopBar() {
           disabled={!audioFile || isLoading}
           className="bg-brand-purple hover:bg-opacity-90 transition px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-lg shadow-brand-purple/20 disabled:opacity-50"
         >
-          <Download className="w-4 h-4" />
-          {isLoading ? 'Exporting...' : 'Export Video'}
+          <Zap className="w-4 h-4 text-white" />
+          {isLoading ? 'Generating...' : 'Generate Reel'}
         </button>
       </div>
     </header>
