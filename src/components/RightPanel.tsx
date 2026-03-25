@@ -71,7 +71,7 @@ export default function RightPanel() {
             <label className="text-xs font-medium text-zinc-500">Resolution</label>
             <select 
               value={exportSettings.resolution}
-              onChange={(e) => setExportSettings({ resolution: e.target.value as any })}
+              onChange={(e) => setExportSettings({ resolution: e.target.value as '1080x1920' | '720x1280' })}
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg text-sm p-2 text-white outline-none"
             >
               <option value="1080x1920">1080x1920 (High Quality)</option>
@@ -85,7 +85,7 @@ export default function RightPanel() {
               {[24, 30].map(fps => (
                 <button
                   key={fps}
-                  onClick={() => setExportSettings({ fps: fps as any })}
+                  onClick={() => setExportSettings({ fps: fps as 24 | 30 })}
                   className={`flex-1 py-1.5 text-sm rounded ${exportSettings.fps === fps ? 'bg-zinc-800 text-white shadow' : 'text-zinc-500 hover:text-zinc-300'}`}
                 >
                   {fps}
@@ -100,7 +100,7 @@ export default function RightPanel() {
               {['mp4', 'webm'].map(fmt => (
                 <button
                   key={fmt}
-                  onClick={() => setExportSettings({ format: fmt as any })}
+                  onClick={() => setExportSettings({ format: fmt as 'mp4' | 'webm' })}
                   className={`flex-1 py-1.5 text-sm uppercase rounded ${exportSettings.format === fmt ? 'bg-zinc-800 text-white shadow' : 'text-zinc-500 hover:text-zinc-300'}`}
                 >
                   {fmt}
