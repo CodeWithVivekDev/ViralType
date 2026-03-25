@@ -38,6 +38,7 @@ export function renderFrame(canvas: Canvas, state: AppState) {
           blur: 10,
           offsetX: 0,
           offsetY: 4
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any
       });
       textCache.set(wordInfo.word, textObj);

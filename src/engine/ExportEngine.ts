@@ -76,6 +76,7 @@ export async function exportVideo(isGreenscreen: boolean = false) {
   ]);
 
   const outputData = await ffmpeg.readFile('output.mp4');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const outBlob = new Blob([new Uint8Array(outputData as any)], { type: 'video/mp4' });
   const outUrl = URL.createObjectURL(outBlob);
 

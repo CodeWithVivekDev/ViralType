@@ -12,7 +12,7 @@ export default function Timeline() {
     if (audioFile) {
       extractPeaks(audioFile, 200).then(p => setPeaks(p));
     } else {
-      setPeaks([]);
+      Promise.resolve().then(() => setPeaks([]));
     }
   }, [audioFile]);
 
