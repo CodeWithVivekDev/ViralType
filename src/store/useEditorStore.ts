@@ -25,6 +25,7 @@ export interface AppState {
   
   // New Viral features
   isViralMode: boolean;
+  language: 'en' | 'hi' | 'hinglish';
   beats: number[];
   exportSettings: ExportSettings;
   
@@ -38,6 +39,7 @@ export interface AppState {
   setCurrentTime: (val: number) => void;
   setDuration: (val: number) => void;
   setIsViralMode: (val: boolean) => void;
+  setLanguage: (lang: 'en' | 'hi' | 'hinglish') => void;
   setBeats: (beats: number[]) => void;
   setExportSettings: (settings: Partial<ExportSettings>) => void;
 }
@@ -54,6 +56,7 @@ export const useEditorStore = create<AppState>((set) => ({
   duration: 0,
   
   isViralMode: true,
+  language: 'en',
   beats: [],
   exportSettings: { resolution: '1080x1920', fps: 30, format: 'mp4' },
   
@@ -66,6 +69,7 @@ export const useEditorStore = create<AppState>((set) => ({
   setCurrentTime: (val) => set({ currentTime: val }),
   setDuration: (val) => set({ duration: val }),
   setIsViralMode: (val) => set({ isViralMode: val }),
+  setLanguage: (val) => set({ language: val }),
   setBeats: (val) => set({ beats: val }),
   setExportSettings: (settings) => set((state) => ({ exportSettings: { ...state.exportSettings, ...settings } }))
 }));

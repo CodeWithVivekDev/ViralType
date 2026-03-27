@@ -70,10 +70,10 @@ export default function Timeline() {
         />
       )}
       <div className="h-12 border-b border-zinc-800 flex items-center px-4 gap-4 bg-zinc-900/50">
-        <button onClick={skipBack} className="p-1.5 hover:text-brand-pink transition rounded">
+        <button onClick={skipBack} className="p-1.5 hover:text-brand-purple transition rounded">
           <SkipBack className="w-4 h-4" />
         </button>
-        <button onClick={togglePlay} className="p-1.5 border hover:text-brand-pink hover:border-brand-pink border-transparent transition rounded-full bg-zinc-800">
+        <button onClick={togglePlay} className="p-1.5 border hover:text-brand-purple hover:border-brand-purple border-transparent transition rounded-full bg-zinc-800">
           {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
         </button>
         <div className="text-xs font-mono text-zinc-400 ml-2">
@@ -92,7 +92,7 @@ export default function Timeline() {
               {peaks.map((peak, i) => (
                 <div 
                   key={i} 
-                  className={`flex-1 rounded-full transition-colors ${i / peaks.length <= currentTime / duration ? 'bg-brand-pink/80' : 'bg-zinc-700/50'}`}
+                  className={`flex-1 rounded-full transition-colors ${i / peaks.length <= currentTime / duration ? 'bg-brand-purple/80' : 'bg-zinc-700/50'}`}
                   style={{ height: `${Math.max(4, peak * 100)}%` }}
                 />
               ))}

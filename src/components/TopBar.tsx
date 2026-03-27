@@ -6,7 +6,7 @@ import { generateMockTranscript } from '../engine/TranscriptionEngine';
 import { exportVideo } from '../engine/ExportEngine';
 
 export default function TopBar() {
-  const { setAudioFile, audioFile, audioUrl, setTranscript, setDuration, setBeats, isLoading } = useEditorStore();
+  const { setAudioFile, audioFile, audioUrl, setTranscript, setDuration, setBeats, isLoading, language } = useEditorStore();
 
   const handleAudioUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -23,7 +23,7 @@ export default function TopBar() {
         
         // Run generation tracking in parallel
         Promise.all([
-          generateMockTranscript(audio.duration),
+          generateMockTranscript(audio.duration, language),
           detectBeats(file)
         ]).then(([words, bts]) => {
           setTranscript(words);
@@ -50,7 +50,7 @@ export default function TopBar() {
   return (
     <header className="h-16 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between px-6 z-10 shrink-0">
       <div className="flex items-center gap-2">
-        <Zap className="w-6 h-6 text-brand-pink fill-brand-pink" />
+        <Zap className="w-6 h-6 text-brand-purple fill-brand-purple" />
         <h1 className="text-xl font-heading font-bold tracking-tight">ViralType</h1>
       </div>
       

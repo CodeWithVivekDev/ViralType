@@ -49,10 +49,10 @@ export async function exportVideo(isGreenscreen: boolean = false) {
     }
     staticCanvas.renderAll();
 
-    // DataURL to Blob to Uint8Array
-    const dataUrl = staticCanvas.toDataURL({ format: 'png', multiplier: 1 });
-    const res = await fetch(dataUrl);
-    const blob = await res.blob();
+    // Async direct Blob extraction (significantly faster than toDataURL+fetch base64 loop)
+    const blob = await new Promise<Blob>((resolve) => {
+      el.toBlob((b) => resolve(b!), 'image/png');
+    });
     const arrayBuffer = await blob.arrayBuffer();
     const uint8 = new Uint8Array(arrayBuffer);
 
@@ -69,11 +69,17 @@ export async function exportVideo(isGreenscreen: boolean = false) {
   const vcodec = format === 'webm' ? 'libvpx-vp9' : 'libx264';
   const acodec = format === 'webm' ? 'libvorbis' : 'aac';
 
+  // Advanced FFmpeg performance arguments
+  const extraArgs = format === 'webm' 
+    ? ['-cpu-used', '8', '-deadline', 'realtime'] 
+    : ['-preset', 'ultrafast', '-crf', '28'];
+
   await ffmpeg.exec([
     '-framerate', fps.toString(),
     '-i', 'frame%05d.png',
     '-i', 'audio.mp3',
     '-c:v', vcodec,
+    ...extraArgs,
     '-c:a', acodec,
     '-b:a', '192k',
     '-pix_fmt', 'yuv420p',

@@ -3,7 +3,7 @@ import { TEMPLATES } from '../config/templates';
 import { Settings, Zap, MonitorPlay } from 'lucide-react';
 
 export default function RightPanel() {
-  const { isViralMode, setIsViralMode, templateId, setTemplateId, exportSettings, setExportSettings } = useEditorStore();
+  const { isViralMode, setIsViralMode, templateId, setTemplateId, exportSettings, setExportSettings, language, setLanguage } = useEditorStore();
 
   const handleViralToggle = () => {
     const newState = !isViralMode;
@@ -24,15 +24,15 @@ export default function RightPanel() {
         
         <div className="space-y-6">
           {/* Viral Mode Toggle */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 shadow-sm">
+          <div className="bg-zinc-900 border border-zinc-800/80 rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <Zap className={`w-4 h-4 ${isViralMode ? 'text-brand-pink fill-brand-pink' : 'text-zinc-500'}`} />
+                <Zap className={`w-4 h-4 ${isViralMode ? 'text-brand-purple fill-brand-purple' : 'text-zinc-500'}`} />
                 <span className="text-sm font-bold text-white">Viral Mode</span>
               </div>
               <button 
                 onClick={handleViralToggle}
-                className={`w-10 h-6 rounded-full transition-colors relative ${isViralMode ? 'bg-brand-pink' : 'bg-zinc-700'}`}
+                className={`w-10 h-6 rounded-full transition-colors relative ${isViralMode ? 'bg-brand-purple' : 'bg-zinc-700'}`}
               >
                 <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${isViralMode ? 'translate-x-5' : 'translate-x-1'}`} />
               </button>
@@ -56,6 +56,19 @@ export default function RightPanel() {
               {Object.values(TEMPLATES).map(tpl => (
                 <option key={tpl.id} value={tpl.id}>{tpl.name}</option>
               ))}
+            </select>
+          </div>
+          {/* Language Selector */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Language</label>
+            <select 
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as 'en' | 'hi' | 'hinglish')}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg text-sm p-3 text-white focus:outline-none focus:border-brand-purple"
+            >
+              <option value="en">English (US)</option>
+              <option value="hi">Hindi (India)</option>
+              <option value="hinglish">Hinglish</option>
             </select>
           </div>
         </div>

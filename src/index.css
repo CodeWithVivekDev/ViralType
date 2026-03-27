@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-brand-purple: #7B5EFF;
-  --color-brand-pink: #FF3CAC;
-  --color-brand-cyan: #00F5D4;
-  --font-heading: 'Syne', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --color-brand-purple: #4F46E5; /* Indigo */
+  --color-brand-pink: #6366F1; /* Lighter Indigo */
+  --color-brand-cyan: #38BDF8; /* Sky */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 @layer base {
@@ -14,9 +14,11 @@
     background-color: var(--color-zinc-950);
     color: var(--color-zinc-100);
     font-family: var(--font-body);
+    font-size: 14px;
+    letter-spacing: -0.01em;
   }
   ::selection {
-    background-color: var(--color-brand-pink);
+    background-color: var(--color-brand-purple);
     color: var(--color-white);
   }
 }

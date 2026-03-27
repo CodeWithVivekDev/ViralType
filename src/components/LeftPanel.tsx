@@ -3,7 +3,7 @@ import { useEditorStore } from '../store/useEditorStore';
 
 const TEMPLATES = [
   { id: 'motivation', name: 'Motivation', color: 'bg-brand-purple' },
-  { id: 'guru', name: 'Guru', color: 'bg-brand-pink' },
+  { id: 'guru', name: 'Guru', color: 'bg-brand-purple' },
   { id: 'beast', name: 'Beast', color: 'bg-brand-cyan' },
   { id: 'minimal', name: 'Minimal', color: 'bg-zinc-500' },
   { id: 'hook', name: 'Hook', color: 'bg-red-500' },
